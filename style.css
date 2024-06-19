@@ -1,0 +1,52 @@
+:root {
+    --roboto: "Roboto", sans-serif;
+    --bg-cream: #E7D8C0;
+    --card-cream: #FFF6E7;
+    --dark-green: #004D3D;
+    --brown: #C05A21;
+    --white: #ffffff;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    background-color: var(--bg-cream);
+    font-family: var(--roboto);
+}
+
+h1 {
+    margin: 50px 0px 25px 0px;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--dark-green);
+}
+
+input {
+    width: 300px;
+    margin-bottom: 15px;
+}
+
+ul {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.listItem {
+    width: 200px;
+    height: auto;
+    margin: 5px 0px;
+    padding: 10px;
+    background-color: var(--card-cream);
+    border: 1px solid var(--dark-green);
+    border-radius: 10px;
+}
+
+.textDecoration {
+    text-decoration: line-through;
+    color: gray;
+}
