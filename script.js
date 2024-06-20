@@ -4,60 +4,58 @@ const ul = document.getElementById("ul");
 
 const todos = JSON.parse(localStorage.getItem("todos")) || [];
 
+// Adiciona todos os itens salvos no localStorage ao carregar a página
 if (todos.length > 0) {
-  todos.forEach((todo) => {
-    add(todo);
-  });
+  todos.forEach((todo) => addTodoItem(todo));
 }
 
+// Adiciona um evento ao formulário para adicionar um novo item quando submetido
 form.addEventListener("submit", function (event) {
   event.preventDefault();
-  add();
+  addTodoItem();
 });
 
-function add(todo) {
-  let todoText = input.value;
-
-  if (todo) {
-    todoText = todo.text;
-  }
+function addTodoItem(todo) {
+  let todoText = todo ? todo.text : input.value;
 
   if (todoText) {
-    const li = document.createElement("li");
-    li.innerText = todoText;
-    li.classList.add("listItem");
-
-    li.addEventListener("contextmenu", function (event) {
-      event.preventDefault();
-      li.remove();
-      saveData();
-    });
-
-    li.addEventListener("click", function() {
-        li.classList.toggle("textDecoration");
-        saveData();
-    })
-
-    if (todo && todo.completed) {
-        li.classList.add("textDecoration");
-    }
-
+    const li = createTodoElement(todoText, todo && todo.completed);
     ul.appendChild(li);
     input.value = "";
-    saveData();
+    saveTodos();
   }
 }
 
-function saveData() {
-  const lists = document.querySelectorAll("li");
-  let todos = [];
-  lists.forEach((list) => {
-    let todo = {
-        text: list.innerText,
-        completed: list.classList.contains("textDecoration")
-    };
+function createTodoElement(text, completed = false) {
+  const li = document.createElement("li");
+  li.innerText = text;
+  li.classList.add("listItem");
 
-    todos.push(todo);
+  // Adiciona eventos de clique e menu de contexto ao item da lista
+  li.addEventListener("contextmenu", function (event) {
+    event.preventDefault();
+    li.remove();
+    saveTodos();
   });
+
+  li.addEventListener("click", function () {
+    li.classList.toggle("textDecoration");
+    saveTodos();
+  });
+
+  if (completed) {
+    li.classList.add("textDecoration");
+  }
+
+  return li;
+}
+
+function saveTodos() {
+  const listItems = document.querySelectorAll("li");
+  const todos = Array.from(listItems).map((listItem) => ({
+    text: listItem.innerText,
+    completed: listItem.classList.contains("textDecoration"),
+  }));
+
   localStorage.setItem("todos", JSON.stringify(todos));
 }
